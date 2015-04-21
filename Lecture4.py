@@ -32,5 +32,51 @@ def stdDevOfLengths(L):
     stdDev = total ** 0.5
     return stdDev
 
+def computeMean(inputs):
+
+    if len(inputs) == 0:
+        return float("NaN")
+
+    total = 0
+    for i in inputs:
+        total += i
+
+    mean = float(total) / float(len(inputs))
+
+    return mean
+
+def computeVariance(inputs):
+
+    mean = computeMean(inputs)
+    variance = 0
+    for i in inputs:
+        variance += (i - mean) ** 2
+
+    return variance
+
+def stdDeviation(inputs):
+
+    total = 0
+    for i in inputs:
+        total += i
+
+    mean = computeMean(inputs)
+
+    variance = computeVariance(inputs)
+
+    standardDeviation = (variance / len(inputs))  ** 0.5
+
+    return standardDeviation
+
+def coefficientOfVariation(inputs):
+
+    mean = computeMean(inputs)
+    standardDeviation = stdDeviation(inputs)
+
+    return float(standardDeviation) / float(mean)
+
 L = ['apples', 'oranges', 'kiwis', 'pineapples']
-print stdDevOfLengths(L)
+
+#print stdDeviation([10, 4, 12, 15, 20, 5])
+print "Coefficient of Variation - ", coefficientOfVariation([10, 4, 12, 15, 20, 5])
+
