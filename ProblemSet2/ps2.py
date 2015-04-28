@@ -257,7 +257,7 @@ class StandardRobot(Robot):
             self.setRobotDirection(random.randrange(0, 360))
 
 # Uncomment this line to see your implementation of StandardRobot in action!
-#testRobotMovement(StandardRobot, RectangularRoom)
+# testRobotMovement(StandardRobot, RectangularRoom)
 
 # === Problem 3
 def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
@@ -281,19 +281,24 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     room = RectangularRoom(width, height)
     stdRobot = robot_type(room, speed)
     print "stdRobot - ", stdRobot
-
+    robots = []
     totalTimeSteps = 0
     for i in range(num_trials):
+        anim = ps2_visualize.RobotVisualization(num_robots, width, height)
+
         timeSteps = 0
         stdRobot.room.cleaned_tiles = []
         num_of_tiles = stdRobot.room.width * stdRobot.room.height
         coverage = 0
         while coverage <= min_coverage:
             coverage = len(stdRobot.room.cleaned_tiles) / float (num_of_tiles)
+            anim.update(room, robots)
+
             stdRobot.updatePositionAndClean()
             timeSteps += 1
 
         totalTimeSteps += timeSteps
+        anim.done()
 
     meanTimeSteps = totalTimeSteps / float(num_trials)
     return meanTimeSteps
