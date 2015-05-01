@@ -281,7 +281,8 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     room = RectangularRoom(width, height)
     stdRobot = robot_type(room, speed)
     print "stdRobot - ", stdRobot
-    robots = []
+    robots = [stdRobot]
+
     totalTimeSteps = 0
     for i in range(num_trials):
         anim = ps2_visualize.RobotVisualization(num_robots, width, height)
@@ -291,7 +292,7 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
         num_of_tiles = stdRobot.room.width * stdRobot.room.height
         coverage = 0
         while coverage <= min_coverage:
-            coverage = len(stdRobot.room.cleaned_tiles) / float (num_of_tiles)
+            coverage = len(stdRobot.room.cleaned_tiles) / float(num_of_tiles)
             anim.update(room, robots)
 
             stdRobot.updatePositionAndClean()
@@ -303,9 +304,6 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     meanTimeSteps = totalTimeSteps / float(num_trials)
     return meanTimeSteps
 
-
-# Uncomment this line to see how much your simulation takes on average
-print runSimulation(1, 1.0, 10, 10, 0.9, 30, StandardRobot)
 
 
 # === Problem 4
@@ -321,8 +319,13 @@ class RandomWalkRobot(Robot):
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
-        raise NotImplementedError
+        self.room.cleanTileAtPosition(self.getRobotPosition())
+        self.setRobotDirection(random.randrange(0, 360))
+        newPosition = self.getRobotPosition().getNewPosition(self.robotDirection, self.speed)
 
+
+# Uncomment this line to see how much your simulation takes on average
+print runSimulation(1, 1.0, 10, 10, 0.9, 1, RandomWalkRobot)
 
 def showPlot1(title, x_label, y_label):
     """
