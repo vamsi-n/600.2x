@@ -322,6 +322,8 @@ class RandomWalkRobot(Robot):
         self.room.cleanTileAtPosition(self.getRobotPosition())
         self.setRobotDirection(random.randrange(0, 360))
         newPosition = self.getRobotPosition().getNewPosition(self.robotDirection, self.speed)
+        if self.room.isPositionInRoom(newPosition):
+            self.setRobotPosition(newPosition)
 
 
 # Uncomment this line to see how much your simulation takes on average
